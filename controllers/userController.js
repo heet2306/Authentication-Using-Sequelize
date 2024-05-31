@@ -1,5 +1,6 @@
 const Users = require("../models/user")
 const bcrypt = require("bcrypt");
+const { SendMail } = require("../service/mail");
 const handlePost = async (req, res) => {
     try {
         let hashPassword = await bcrypt.hash(req.body.password, 10);
@@ -61,4 +62,15 @@ const handleLogin = async (req, res) => {
 
     res.send(user);
 };
-module.exports = { handlePost, handleGet, handleUpdate, handlDelete, getSignUp, getLoginPage, handleLogin }
+
+const optGen = async (req, res) => {
+    let { email } = req.body;
+    // let user = await Users.findOne({ where: { email: email } }, { raw: true });
+    // if (!user) {
+    //     res.send("user not found");
+    // }
+    let otp = Math.round(Math.random() * 10000)
+    await SendMail(email, otp)
+    res.send("OTP Send Successfully");
+}
+module.exports = { handlePost, handleGet, handleUpdate, handlDelete, getSignUp, getLoginPage, handleLogin,optGen }

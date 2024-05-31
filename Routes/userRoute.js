@@ -1,5 +1,5 @@
 const { Router } = require("express")
-const { handlePost, handleGet, handleUpdate, handlDelete, getLoginPage, getSignUp, handleLogin } = require("../controllers/userController")
+const { handlePost, handleGet, handleUpdate, handlDelete, getLoginPage, getSignUp, handleLogin, optGen } = require("../controllers/userController")
 const passport = require("passport")
 const { isExists } = require("../middlewares/Validate")
 const userRoute = Router()
@@ -18,4 +18,7 @@ res.send({user:req.user,msg:"Welcome"});
 });
 userRoute.get("/signup", getSignUp)
 
+
+// OTP
+userRoute.post("/otp",optGen)
 module.exports = userRoute;
